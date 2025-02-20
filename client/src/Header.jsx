@@ -1,17 +1,17 @@
 import React from "react";
 import { FaAirbnb, FaSearch, FaUser } from "react-icons/fa";
 import { CiMenuBurger } from "react-icons/ci";
-import  {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <div>
       <div>
         <header className="flex justify-between">
-          <a href="" className="flex items-center gap-1">
+          <Link to="/" className="flex items-center gap-1">
             <FaAirbnb className="w-8 h-8" />
             <span className="font-bold text-xl">airbnb</span>
-          </a>
+          </Link>
           <div className="flex gap-2 border border-gray-300 rounded-full py-2 px-4 shadow-md shadow-gray-300">
             <div>Anywhere</div>
             <div className="border-l border-gray-300 "></div>
@@ -26,7 +26,10 @@ const Header = () => {
             <div>
               <CiMenuBurger />
             </div>
-            <Link to="/login" className="bg-gray-500 text-white rounded-full p-1 border border-gray-500 overflow-hidden">
+            <Link
+              to="/login"
+              className="bg-gray-500 text-white rounded-full p-1 border border-gray-500 overflow-hidden"
+            >
               <FaUser />
             </Link>
           </div>
