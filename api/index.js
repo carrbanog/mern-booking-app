@@ -17,6 +17,8 @@ app.use(express.json());
 // const testRoutes = require("./routes/testRoutes");
 
 app.use("/test", require("./routes/testRoutes"));
-app.use("/register", require("./routes/loginRoutes"));
+app.use("/register", require("./routes/registerRoutes"));
+app.use("/login", require("./routes/loginRoutes"));
+
 
 app.listen(4000, console.log("connected"));

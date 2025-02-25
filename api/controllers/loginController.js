@@ -1,45 +1,31 @@
 const User = require("../models/User"); //db user
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const postRegister = async (req, res) => {
-  const { name, email, password } = req.body;
-
-  try {
-    const existingUser = await User.findOne({ email });
-    const existingName = await User.findOne({name});
-    console.log(existingUser);
-    if (existingUser) {
-      return res.status(400).json({ message: "이미 사용중인 이메일입니다." });
+const postLogin = async (req, res) => {
+  const jwtSecret = "dfmklcvjnlcfkvmflk";
+  const { email, password } = req.body;
+  const userDoc = await User.findOne({ email });
+  console.log(userDoc);
+  if (userDoc) {
+    const passOk = bcrypt.compareSync(req.body.password, userDoc.password);
+    if (passOk) {
+      jwt.sign(
+        { email: userDoc.email, id: userDoc._id },
+        jwtSecret,
+        {},
+        (err, token) => {
+          if (err) throw err;
+          res.cookie("token", token).json("pass ok");
+        }
+      );
+      res.status(200).json({message: "로그인 성공"})
+    } else {
+      res.status(422).json({ error: "비밀번호가 틀렸습니다." });
     }
-    const userDoc = await User.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
-    });
-    res.status(201).json({
-      message: "회원가입 성공",
-      user: userDoc,
-    });
-  } catch (error) {
-    res.status(500).json({ message: "서버 오류 발생", error: error.message });
+  } else {
+    return res.status(404).json({ error: "계정이 없습니다." });
   }
-
-  // const {name, email, password} = req.body;
-  // // console.log(name, email, password);
-  // const existingUser = await User.findOne({email});
-  // if(existingUser){
-  //   console.log(existingUser.email);
-  //   return res.status(400).json({message: "이미 사용중인 이메일입니다."});
-  // }
-  // const userDoc = await User.create({
-  //   name: req.body.name,
-  //   email: req.body.email,
-  //   password:bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10)),
-  // });
-  // res.status(201).json({
-  //   message: "회원가입 성공"
-  // })
-  // console.log(userDoc);
 };
 
-module.exports = postRegister;
+module.exports = postLogin;

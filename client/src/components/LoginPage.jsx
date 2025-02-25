@@ -1,16 +1,34 @@
 import React, { useState } from "react";
 import "../index.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("/login", {
+        email,
+        password,
+      });
+      console.log(response);
+      alert(response.data.message);
+    } catch (error) {
+      console.log(error);
+      alert(error.response.data.error);
+    }
+  };
   return (
     <div className="mt-4  grow flex items-center justify-around">
       <div className="mb-64">
         <h1 className="text-4xl text-center mb-4">Login</h1>
-        <form action="" className="max-w-md mx-auto">
+        <form
+          action=""
+          className="max-w-md mx-auto"
+          onSubmit={handleLoginSubmit}
+        >
           <input
             type="email"
             placeholder="your@email.com"
