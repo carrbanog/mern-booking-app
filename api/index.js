@@ -1,11 +1,16 @@
 const express = require("express");
 const cors = require("cors");
+const bcrypt = require("bcryptjs");
+require("dotenv").config();
+const mongoose = require("mongoose");
 const app = express();
 
 app.use(cors({
   credentials: true,
   origin: "http://localhost:5173",
 }));
+
+mongoose.connect(process.env.DB_CONNECT);
 
 app.use(express.json());
 
