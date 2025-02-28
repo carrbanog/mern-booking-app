@@ -21,7 +21,7 @@ const postLogin = async (req, res) => {
       );
       res.status(200).json({message: "로그인 성공"})
     } else {
-      res.status(422).json({ error: "비밀번호가 틀렸습니다." });
+      res.status(422).json({ error: "비밀번호가틀렸습니다." });
     }
   } else {
     return res.status(404).json({ error: "계정이 없습니다." });
