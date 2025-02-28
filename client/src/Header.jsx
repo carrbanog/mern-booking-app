@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaAirbnb, FaSearch, FaUser } from "react-icons/fa";
 import { CiMenuBurger } from "react-icons/ci";
 import { Link } from "react-router-dom";
+import { UserContext } from "./UserContext";
 
 const Header = () => {
+  const { user } = useContext(UserContext);
+  console.log(user);
   return (
     <div>
       <div>
@@ -28,9 +31,10 @@ const Header = () => {
             </div>
             <Link
               to="/login"
-              className="bg-gray-500 text-white rounded-full p-1 border border-gray-500 overflow-hidden"
+              className="bg-gray-500 text-white rounded-full p-1 border border-gray-500 overflow-hidden flex items-center"
             >
               <FaUser />
+              {!!user && <div>{user}</div>}
             </Link>
           </div>
         </header>
