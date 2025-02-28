@@ -1,31 +1,56 @@
 const User = require("../models/User"); //db user
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const postLogin = async (req, res) => {
-  const jwtSecret = "dfmklcvjnlcfkvmflk";
-  const { email, password } = req.body;
-  const userDoc = await User.findOne({ email });
-  console.log(userDoc);
-  if (userDoc) {
-    const passOk = bcrypt.compareSync(req.body.password, userDoc.password);
-    if (passOk) {
-      jwt.sign(
-        { email: userDoc.email, id: userDoc._id },
-        jwtSecret,
-        {},
-        (err, token) => {
-          if (err) throw err;
-          res.cookie("token", token).json("pass ok");
-        }
-      );
-      res.status(200).json({message: "로그인 성공"})
-    } else {
-      res.status(422).json({ error: "비밀번호가틀렸습니다." });
+  try {
+    const { email, password } = req.body;
+    const userDoc = await User.findOne({ email });
+    console.log(`userDoc: ${userDoc}`);
+    if (!userDoc) {
+      return res.status(404).json({ error: "계정이 없습니다." });
     }
-  } else {
-    return res.status(404).json({ error: "계정이 없습니다." });
+    const passOk = await bcrypt.compare(req.body.password, userDoc.password);
+    if (!passOk) {
+      return res.status(422).json({ error: "비밀번호가 틀렸습니다." });
+    }
+
+    const token = jwt.sign(
+      { email: userDoc.email, id: userDoc._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+    console.log(`token: ${JSON.stringify(jwt.decode(token))}`);
+    return res
+      .cookie("token", token, {httpOnly: true, secure: false})
+      .status(200)
+      .json({ message: "로그인 성공", token, userDoc });
+  } catch (err) {
+    console.error("로그인 오류", err);
+    return res.status(500).json({ error: "서버 오류" });
   }
+
+  // if (!userDoc) {
+  //   const passOk = bcrypt.compareSync(req.body.password, userDoc.password);
+  //   if (passOk) {
+  //     jwt.sign(
+  //       { email: userDoc.email, id: userDoc._id },
+  //       process.env.JWT_SECRET,
+  //       {expiresIn: "1h"},
+  //       (err, token) => {
+  //         if (err){
+  //           return res.status(500).json({error: "JWT 생성 오류"});
+  //         }
+  //         res.cookie("token", token).status(200).json({message: "로그인 성공", token});
+  //       }
+  //     );
+  //   } else {
+  //     res.status(422).json({ error: "비밀번호가 틀렸습니다." });
+  //   }
+  // } else {
+  //   return res.status(404).json({ error: "계정이 없습니다." });
+  // }
 };
 
 module.exports = postLogin;

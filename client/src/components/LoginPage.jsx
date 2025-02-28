@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "../index.css";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axios from "axios";
+import { UserContext } from "../UserContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+
+  const {user, setUser} = useContext(UserContext);
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -14,12 +18,18 @@ const LoginPage = () => {
         password,
       });
       console.log(response);
+      console.log(user)
+      setUser(response.data.userDoc.name);
       alert(response.data.message);
+      setRedirect(true);
     } catch (error) {
       console.log(error);
       alert(error.response.data.error);
     }
   };
+  if(redirect){
+    return <Navigate to = {"/"} />
+  }
   return (
     <div className="mt-4  grow flex items-center justify-around">
       <div className="mb-64">
