@@ -17,13 +17,16 @@ const postLogin = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: userDoc.email, id: userDoc._id },
+      // { email: userDoc.email, id: userDoc._id, name: userDoc.name },
+      //이름을 토큰에 넣에서 클라이언트에서 바로 이름 찾기
+      { email: userDoc.email, id: userDoc._id,},
       process.env.JWT_SECRET,
+      //이름을 넣지 않고 /profile에서 토큰을 받을때 토큰에 있는 이메일을 db에 요청한 후 이름 반환
       { expiresIn: "1h" }
     );
     console.log(`token: ${JSON.stringify(jwt.decode(token))}`);
     return res
-      .cookie("token", token, {httpOnly: true, secure: false})
+      .cookie("token", token, { httpOnly: true, secure: false })
       .status(200)
       .json({ message: "로그인 성공", token, userDoc });
   } catch (err) {

@@ -22,7 +22,7 @@ const LoginPage = () => {
       console.log(user)
       alert(response.data.message);
       setRedirect(true);
-    } catch (error) {
+    } catch (error) { 
       console.log(error);
       alert(error.response.data.error);
     }

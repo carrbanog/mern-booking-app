@@ -6,7 +6,7 @@ import { UserContext } from "./UserContext";
 
 const Header = () => {
   const { user } = useContext(UserContext);
-  console.log(user);
+  // console.log(user);
   return (
     <div>
       <div>
@@ -31,10 +31,11 @@ const Header = () => {
             </div>
             <Link
               to="/login"
-              className="bg-gray-500 text-white rounded-full p-1 border border-gray-500 overflow-hidden flex items-center"
+              className="bg-gray-500 text-white rounded-full p-1 border border-gray-400 overflow-hidden flex items-center"
             >
               <FaUser />
               {!!user && <div>{user}</div>}
+              
             </Link>
           </div>
         </header>
