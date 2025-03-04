@@ -18,8 +18,8 @@ const LoginPage = () => {
         password,
       });
       console.log(response);
-      console.log(user)
       setUser(response.data.userDoc.name);
+      console.log(user)
       alert(response.data.message);
       setRedirect(true);
     } catch (error) {
