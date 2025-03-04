@@ -35,6 +35,7 @@ const Header = () => {
             >
               <FaUser />
               {!!user && <div>{user}</div>}
+              ㅇ
             </Link>
           </div>
         </header>
