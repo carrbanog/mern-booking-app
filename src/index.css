@@ -1,0 +1,25 @@
+/* components.css */
+
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  border: 1px solid #ccc; /* 기본 테두리 색상 */
+  border-radius: 9999px; /* 둥근 모서리 */
+  padding: 0.5rem 0.75rem; /* 위아래 0.5rem, 좌우 0.75rem */
+  margin: 0.5rem 0; /* 위아래 0.5rem, 좌우 0 */
+}
+
+button{
+  background-color: gray;
+}
+
+button.loginButton{
+  background-color: #F5385D;
+  padding: 0.5rem;      /* 8px */
+  width: 100%;
+  color: white;
+    border: 1px solid #ccc; /* 기본 테두리 색상 */
+  border-radius: 9999px; /* 둥근 모서리 */
+}
