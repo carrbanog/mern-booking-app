@@ -30,11 +30,11 @@ const Header = () => {
               <CiMenuBurger />
             </div>
             <Link
-              to="/login"
+              to={user?`/account` : `/login`}
               className="bg-gray-500 text-white rounded-full p-1 border border-gray-400 overflow-hidden flex items-center"
             >
               <FaUser />
-              {!!user && <div>{user}</div>}
+              {!!user && <div>{user.name}</div>}
               
             </Link>
           </div>

@@ -5,6 +5,7 @@ export const UserContext = createContext();
 
 export function UserContextProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [ready, setReady] = useState(false);
   // console.log(user);
   useEffect(() => {
     const getProfile = async () => {
@@ -12,7 +13,8 @@ export function UserContextProvider({ children }) {
         if (!user) {
           const {data} = await axios.get("/profile");
           console.log(data);
-          setUser(data.name);
+          setReady(true);
+          setUser({ name: data.name, email: data.email });
         }
       } catch (error) {
         console.error("데이터 로딩 오류: ", error);
@@ -21,7 +23,7 @@ export function UserContextProvider({ children }) {
     getProfile();
   }, []);
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, ready }}>
       {children}
     </UserContext.Provider>
   );

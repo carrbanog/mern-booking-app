@@ -12,7 +12,7 @@ input[type="email"] {
 }
 
 button{
-  background-color: gray;
+  /* background-color: gray; */
 }
 
 button.loginButton{
