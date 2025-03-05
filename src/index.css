@@ -11,9 +11,9 @@ input[type="email"] {
   margin: 0.5rem 0; /* 위아래 0.5rem, 좌우 0 */
 }
 
-button{
-  /* background-color: gray; */
-}
+/* button{
+  background-color: gray;
+} */
 
 button.loginButton{
   background-color: #F5385D;
